@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <header>
+            <h1 style="margin-left:10px">Booking Appointment App</h1>
+        </header>
+        <form  onsubmit="saveToLocalStorage(event)">
+            <label> Name</label><br>
+            <input id='username' type="text" required><br><br>
+            <label> EmailId</label><br>
+            <input id='email' type="email" required><br><br>
+            <label> Phone </label><br>
+            <input id='phonenumber' type="number" ><br><br>
+            <button> Submit </button>
+        </form>
+        
+        <ul id='listOfUsers'></ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+        <script>
+              console.log('dom')
+              var idd=0;
+                async function saveToLocalStorage(event) {
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.email.value;
+                const phonenumber = event.target.phonenumber.value;
+                 const obj = {
+                    name,
+                    email,
+                    phonenumber
+                }
+                   try
+                   {
+                    if(idd!=0)
+                    {
+                    let res=await axios.put(`http://localhost:8500/editAppointment/${idd}`,obj);
+                   localStorage.setItem(res.data.Id,JSON.stringify(res.data));
+                   idd=0;
+                    showNewUserOnScreen(res.data);
+                    }
+                   else
+                { 
+                    let res=await axios.post("http://localhost:8500/bookAppointment",obj);
+                   localStorage.setItem(res.data.Id,JSON.stringify(res.data));
+                    showNewUserOnScreen(res.data);
+                }
+             }              
+                catch(err)
+                {
+                    console.log(err);
+                 }                
+                   }
+
+            window.addEventListener("DOMContentLoaded", async function load(){
+             try
+             {
+            let resp= await axios.get("http://localhost:8500/getAppointment");
+            console.log('domcontentloaded')
+            for(let i=0;i<resp.data.length;i++)
+            {
+            showNewUserOnScreen(resp.data[i]);
+            }
+        }                 
+            catch(err)
+             {
+                console.log(err);
+                    }      
+                });
+                
+                //show new user on screen
+                 function showNewUserOnScreen(user){
+                document.getElementById('email').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('phonenumber').value ='';
+               const parentNode = document.getElementById('listOfUsers');
+                const childHTML = `<li id=${user.Id}> ${user.name} - ${user.email}-${user.phoneNumber}
+                <button onclick=deleteUser('${user.Id}') > Delete User </button>
+                <button onclick=editUserDetails('${user.Id}','${user.email}','${user.name}','${user.phoneNumber}')>Edit User</button></li>`
+                parentNode.innerHTML = parentNode.innerHTML + childHTML;
+            }
+
+            //Edit User
+
+            function editUserDetails(Id,email, name, phoneNumber)
+            {
+                idd=Id;
+                document.getElementById('email').value = email;
+                document.getElementById('username').value = name;
+                document.getElementById('phonenumber').value =phoneNumber;
+            
+                removeUserFromScreen(Id);
+             }
+
+            // deleteUser('abc@gmail.com')
+
+               function deleteUser(Id){
+                localStorage.removeItem(Id);
+                removeUserFromScreen(Id);
+                deleteDB(Id);
+               }               
+
+              async function deleteDB(Id)
+              {
+                try{
+                    let res=await axios.delete(`http://localhost:8500/deleteAppointment/${Id}`)
+                          }
+              catch(err)
+              {
+                console.log(err);
+            }
+        }
+        
+            function removeUserFromScreen(Id){
+                localStorage.removeItem(Id);
+                const parentNode = document.getElementById('listOfUsers');
+                const childNodeToBeDeleted = document.getElementById(Id);
+                parentNode.removeChild(childNodeToBeDeleted)
+             
+                         }
+         </script>
+   </body>
+</html>

@@ -1,0 +1,104 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: rgb(250, 246, 246);
+}
+h1{
+  background-color: rgb(5, 7, 7);
+  font-style: bold;
+}
+input,option{
+  color:black;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  background-image: url('https://img.freepik.com/free-photo/vegetables-set-left-black-slate_1220-685.jpg?w=1380&t=st=1686940209~exp=1686940809~hmac=24ca98839475876d3d9bf6451e4f42c5888c821bda721d5c5ae146dc706caf97');
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {
+  padding: 5px;
+  background: #c8eb6b;
+  margin: 5px 0;
+  color: black;
+}
+
+header {
+  background: #f4f4f4;
+  padding: 1rem;
+  text-align: center;
+}
+
+.container {
+  margin: auto;
+  width: 500px;
+  overflow: auto;
+  padding: 3rem 2rem;
+}
+
+#my-form {
+  padding: 2rem;
+  background: black;
+}
+
+#my-form label {
+  display: block;
+}
+
+#my-form input[type='text'] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.edit{
+  background-color: blue;
+}
+h2{
+  text-align: center;
+}
+.delete{
+  background-color: rgb(236, 1, 40);
+  color: rgb(241, 230, 230);
+  width: 40%;
+  float: right;
+  
+  
+}
+.submit{
+  background-color: green;
+}
+
+.btn {
+
+  display: block;
+  width: 35%;
+  padding: 10px 15px;
+  border: 0;
+  background: green;
+  color: #fff;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.btn:hover {
+  background: rgb(175, 175, 77);
+}
+
+.bg-dark {
+  background: rgb(190, 255, 92);
+  color: #4ae0fa;
+}
+
+.error {
+  background: orangered;
+  color: #fff;
+  padding: 5px;
+  margin: 5px;
+}
